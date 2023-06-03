@@ -1,0 +1,129 @@
+swagger: '2.0'
+info: 
+  title: My Super API
+  description: An awesome super API for Coders
+  version: 1.0.0
+  contact:
+    email: alexmarinmendez@gmail.com
+
+paths:
+  /api/string:
+    get:
+      summary: Returs a string
+      description: String endpoint
+      responses:
+        200:
+          description: Success response
+        400:
+          description: User error
+
+  /api/user:
+    get:
+      summary: Returs a user
+      description: Single user endpoint
+      tags:
+        - User
+      responses:
+        200:
+          description: Success response
+          schema:
+            # type: object
+            # properties:
+            #   id:
+            #     type: integer
+            #   name:
+            #     type: string
+            $ref: "#/components/schemas/User"
+        400:
+          description: User error
+
+  /api/users:
+    get:
+      summary: Returns a list of users
+      description: People who are already registered
+      tags:
+        - User
+      responses:
+        200:
+          description: Success response
+          schema:
+            type: array
+            items:
+              # type: object
+              # properties:
+              #   id:
+              #     type: integer
+              #   name:
+              #     type: string
+              $ref: "#/components/schemas/User"
+
+  /api/users/{userId}:
+    get:
+      summary: Returs a user by ID
+      description: Returns the specific user
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: object
+            example: { id: 1, name: Alex }
+
+  /api/create:
+    post:
+      summary: Adds a new user
+      tags:
+        - User
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          schema:
+            type: object
+            required: 
+              - name
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: Ok
+
+  /api/usersQuery:
+    get:
+      summary: Returns a user by ID
+      description: Returns a spectific user
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: id
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: object
+            example: { id: 1, name: Alex }
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
